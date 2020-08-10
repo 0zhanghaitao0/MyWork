@@ -71,7 +71,7 @@ def distinguishTravel(dataGroupsList): #为每个用户区分不同的行程，�
     return list
 
 
-def write_csv(datasList): #向csv表写数据
+def write_csv(datasList):  #向csv表写数据
     cols = ['用户号码', '开始时间', '开始基站', '开始基站经度', '开始基站纬度', '结束时间', '结束基站', '结束基站经度', '结束基站纬度', '停留时间', '行程段']
     datas_List = pd.DataFrame(datasList)
     datas_List.columns = cols
