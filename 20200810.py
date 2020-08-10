@@ -79,7 +79,7 @@ def write_csv(datasList): #向csv表写数据
 
 if __name__ == '__main__':
     datasList = readData(csv_file) #读取数据,datasList为接收的数据列表
-    datasList = deleteZeroData(datasList) #删除经纬度为0的数据
+    datasList = deleteZeroData(datasList)  #删除经纬度为0的数据
     dataGroupsList = groupByUserId(datasList)  #根据用户号码为分类出不同的用户
     list = distinguishTravel(dataGroupsList) #为每个用户区分不同的行程，并且打上每段行程的标记
     write_csv(list)
