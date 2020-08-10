@@ -52,6 +52,7 @@ def groupByUserId(datasList):
     return dataGroupsList
 
 def distinguishTravel(dataGroupsList): #为每个用户区分不同的行程，并且打上每段行程的标记
+    #给不同用户标识不同的行程标记
     for dataGroup in dataGroupsList:
         flag = 1
         for i in range(0, len(dataGroup)-1):
@@ -64,22 +65,43 @@ def distinguishTravel(dataGroupsList): #为每个用户区分不同的行程，�
             dataGroup[-1].append((flag-1))
         else:
             dataGroup[-1].append(flag)
-    list=[]
+    # list=[]
+    # for dataGroup in dataGroupsList: #[[[不同行程数据]不同用户数据]所有数据]
+    #     for data in dataGroup:
+    #         list.append(data)
+    #给用户继续细化分不同的行程
+    allUser = []
     for dataGroup in dataGroupsList:
+        user = []
+        travel = []
+        flag = 1
         for data in dataGroup:
-            list.append(data)
-    return list
+            if data[10] == flag:
+                travel.append(data)
+            elif data[10] != flag:
+                user.append(travel)
+                travel=[]
+                flag = flag+1
+                travel.append(data)
+        user.append(travel) #添加每段行程的最后一次数据记录
+        allUser.append(user)
+    return allUser  #格式:[allUser[user[travel]]]
+
+# def removePingPong(dataGroupsList):
+#     for dataGroup in dataGroupsList:
+    #    for data in dataGroup:
 
 
 def write_csv(datasList):  #向csv表写数据
     cols = ['用户号码', '开始时间', '开始基站', '开始基站经度', '开始基站纬度', '结束时间', '结束基站', '结束基站经度', '结束基站纬度', '停留时间', '行程段']
     datas_List = pd.DataFrame(datasList)
     datas_List.columns = cols
-    datas_List.to_csv(r'F:\data\20180827\2' + '.csv', index=None, encoding='utf_8_sig')
+    datas_List.to_csv(r'F:\data\20180827\3' + '.csv', index=None, encoding='utf_8_sig')
 
 if __name__ == '__main__':
-    datasList = readData(csv_file) #读取数据,datasList为接收的数据列表111
+    datasList = readData(csv_file) #读取数据,datasList为接收的数据列表
     datasList = deleteZeroData(datasList) #删除经纬度为0的数据
     dataGroupsList = groupByUserId(datasList)  #根据用户号码为分类出不同的用户
-    list = distinguishTravel(dataGroupsList) #为每个用户区分不同的行程，并且打上每段行程的标记
-    write_csv(list)
+    dataGroupsList = distinguishTravel(dataGroupsList) #为每个用户区分不同的行程，并且打上每段行程的标记
+    #removePingPong(dataGroupsList) #分行程去除乒乓效应导致的噪声数据
+    write_csv(dataGroupsList)
