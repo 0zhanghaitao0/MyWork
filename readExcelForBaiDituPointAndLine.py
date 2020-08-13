@@ -16,7 +16,7 @@ def format(datasList): #按固定的格式输出，目的是方便使用JSapi �
     list=[]
     for content in datasList:
         #print(content)
-        str = "new BMapGL.Point({},{}),".format(content[4],content[3])
+        str = "new BMap.Point({},{}),".format(content[3],content[4])
         #print("new BMapGL.Point({},{}),".format(content[1],content[0]))
         list.append(str)
 
