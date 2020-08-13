@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+		#allmap{height:800px;width:100%;}
+		#r-result{width:100%;}
+	</style>
+	<script type="text/javascript" src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=vKHOVd6Gd0ZECdBgwuOcSCaTvX67bD3G"></script>
+	<title>添加/删除覆盖物</title>
+</head>
+<body>
+	<div id="allmap"></div>
+	<div id="r-result">
+		<!-- <input type="button" onclick="add_overlay();" value="添加覆盖物" />
+		<input type="button" onclick="remove_overlay();" value="删除覆盖物" /> -->
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMapGL.Map("allmap");
+	var point = new BMapGL.Point(118.802403,32.127319);
+	map.centerAndZoom(point, 15);
+	//var marker = new BMapGL.Marker(point); // 创建点
+	//var marker2 = new BMapGL.point(118.743531,32.059471);
+	var polyline = new BMapGL.Polyline([
+new BMapGL.Point(118.764737,32.041741),
+new BMapGL.Point(118.763612,32.041246),
+new BMapGL.Point(118.763638,32.04118),
+new BMapGL.Point(118.763617,32.041168),
+new BMapGL.Point(118.763632,32.041149),
+new BMapGL.Point(118.762637,32.040596),
+new BMapGL.Point(118.760775,32.039395),
+new BMapGL.Point(118.759621,32.038648),
+new BMapGL.Point(118.758036,32.037644),
+new BMapGL.Point(118.757783,32.037498),
+new BMapGL.Point(118.757709,32.037484),
+new BMapGL.Point(118.757576,32.037481),
+new BMapGL.Point(118.757234,32.037484),
+new BMapGL.Point(118.756764,32.037525),
+new BMapGL.Point(118.755786,32.03764),
+new BMapGL.Point(118.755359,32.037674),
+new BMapGL.Point(118.753748,32.037897),
+new BMapGL.Point(118.750197,32.038639),
+new BMapGL.Point(118.749504,32.038751),
+new BMapGL.Point(118.748984,32.038784),
+new BMapGL.Point(118.748025,32.038759),
+new BMapGL.Point(118.746759,32.038737),
+new BMapGL.Point(118.746118,32.038754),
+new BMapGL.Point(118.745454,32.038874),
+new BMapGL.Point(118.744076,32.039174),
+new BMapGL.Point(118.743252,32.039286),
+new BMapGL.Point(118.742219,32.039502),
+new BMapGL.Point(118.741522,32.039583),
+new BMapGL.Point(118.740531,32.039593),
+new BMapGL.Point(118.738209,32.039628),
+new BMapGL.Point(118.735191,32.03965),
+new BMapGL.Point(118.734328,32.03964),
+new BMapGL.Point(118.73377,32.03179),
+new BMapGL.Point(118.733622,32.029106),
+new BMapGL.Point(118.731023,32.029411),
+new BMapGL.Point(118.728519,32.029824),
+new BMapGL.Point(118.725184,32.03053),
+new BMapGL.Point(118.723428,32.031136),
+new BMapGL.Point(118.720414,32.032301),
+new BMapGL.Point(118.720217,32.032324),
+new BMapGL.Point(118.721191,32.033924),
+new BMapGL.Point(118.721254,32.034079),
+new BMapGL.Point(118.721389,32.034214),
+new BMapGL.Point(118.721617,32.034652),
+new BMapGL.Point(118.721926,32.035114),
+new BMapGL.Point(118.722661,32.03634),
+new BMapGL.Point(118.723208,32.037184),
+new BMapGL.Point(118.723664,32.037784),
+new BMapGL.Point(118.724274,32.038341),
+new BMapGL.Point(118.724973,32.03874),
+new BMapGL.Point(118.725827,32.039068),
+new BMapGL.Point(118.727417,32.039706),
+new BMapGL.Point(118.727141,32.039794),
+new BMapGL.Point(118.725873,32.040287),
+new BMapGL.Point(118.724908,32.040642),
+new BMapGL.Point(118.718702,32.042624),
+new BMapGL.Point(118.723336,32.051232),
+new BMapGL.Point(118.727048,32.060787),
+new BMapGL.Point(118.727292,32.062053),
+new BMapGL.Point(118.727796,32.064641),
+new BMapGL.Point(118.727648,32.068579),
+new BMapGL.Point(118.728136,32.075364),
+new BMapGL.Point(118.728249,32.075992),
+new BMapGL.Point(118.729214,32.081566),
+new BMapGL.Point(118.730136,32.087028),
+new BMapGL.Point(118.728884,32.090859),
+new BMapGL.Point(118.726651,32.092952),
+new BMapGL.Point(118.736654,32.105328),
+new BMapGL.Point(118.740581,32.110197),
+new BMapGL.Point(118.744907,32.115539),
+new BMapGL.Point(118.7609,32.125977),
+new BMapGL.Point(118.765691,32.132457),
+new BMapGL.Point(118.776482,32.129511),
+new BMapGL.Point(118.785015,32.127144),
+new BMapGL.Point(118.785726,32.126939),
+new BMapGL.Point(118.78596,32.126857),
+new BMapGL.Point(118.78609,32.126768),
+new BMapGL.Point(118.786792,32.125747),
+new BMapGL.Point(118.784425,32.124107),
+new BMapGL.Point(118.783784,32.123739),
+new BMapGL.Point(118.783549,32.123661),
+new BMapGL.Point(118.783393,32.123596),
+new BMapGL.Point(118.783168,32.123627),
+new BMapGL.Point(118.783029,32.123634),
+new BMapGL.Point(118.782648,32.123426),
+new BMapGL.Point(118.781754,32.122886),
+new BMapGL.Point(118.782786,32.122013),
+new BMapGL.Point(118.78439,32.120683),
+new BMapGL.Point(118.785777,32.120934),
+new BMapGL.Point(118.787078,32.121728),
+new BMapGL.Point(118.787954,32.123144),
+new BMapGL.Point(118.789376,32.125475),
+new BMapGL.Point(118.790433,32.126118),
+new BMapGL.Point(118.791326,32.125948),
+new BMapGL.Point(118.792097,32.125062),
+new BMapGL.Point(118.792124,32.124999),
+new BMapGL.Point(118.792331,32.12412),
+new BMapGL.Point(118.792981,32.122431),
+new BMapGL.Point(118.793857,32.121913),
+new BMapGL.Point(118.795755,32.121752),
+new BMapGL.Point(118.797879,32.122509),
+new BMapGL.Point(118.798329,32.122792),
+new BMapGL.Point(118.79865,32.123067),
+new BMapGL.Point(118.798849,32.123319),
+new BMapGL.Point(118.799265,32.124299),
+new BMapGL.Point(118.799551,32.125019),
+new BMapGL.Point(118.799725,32.125184),
+new BMapGL.Point(118.800011,32.125405),
+new BMapGL.Point(118.800279,32.12571),
+new BMapGL.Point(118.800695,32.126215),
+new BMapGL.Point(118.801033,32.126564),
+new BMapGL.Point(118.801857,32.12712),
+new BMapGL.Point(118.802403,32.127319),
+new BMapGL.Point(118.802949,32.127294),
+new BMapGL.Point(118.803469,32.126894),
+new BMapGL.Point(118.803573,32.126807),
+new BMapGL.Point(118.803599,32.126647),
+new BMapGL.Point(118.803512,32.12643),
+new BMapGL.Point(118.803451,32.126337),
+new BMapGL.Point(118.803286,32.125925),
+new BMapGL.Point(118.803217,32.125113),
+new BMapGL.Point(118.803312,32.124352),
+new BMapGL.Point(118.804153,32.123354),
+new BMapGL.Point(118.80482,32.122804),
+new BMapGL.Point(118.80547,32.122667),
+new BMapGL.Point(118.805946,32.12218),
+new BMapGL.Point(118.80592,32.121486),
+new BMapGL.Point(118.805877,32.121429),
+new BMapGL.Point(118.806336,32.120713),
+new BMapGL.Point(118.806405,32.120404),
+new BMapGL.Point(118.806397,32.120064),
+new BMapGL.Point(118.806136,32.119118),
+new BMapGL.Point(118.804819,32.115614),
+new BMapGL.Point(118.804455,32.114638),
+new BMapGL.Point(118.804247,32.114215),
+new BMapGL.Point(118.803944,32.11363),
+new BMapGL.Point(118.803831,32.113507),
+new BMapGL.Point(118.803684,32.113381),
+new BMapGL.Point(118.803554,32.113318),
+new BMapGL.Point(118.802609,32.113172),
+new BMapGL.Point(118.80241,32.113055),
+new BMapGL.Point(118.802315,32.112953),
+new BMapGL.Point(118.801794,32.11039),
+new BMapGL.Point(118.801561,32.109214),
+new BMapGL.Point(118.801422,32.108928),
+new BMapGL.Point(118.800243,32.109296),
+new BMapGL.Point(118.799949,32.108598),
+new BMapGL.Point(118.79981,32.108318),
+new BMapGL.Point(118.799524,32.107861),
+new BMapGL.Point(118.799125,32.107421),
+new BMapGL.Point(118.798908,32.106788),
+new BMapGL.Point(118.798735,32.106055),
+new BMapGL.Point(118.798683,32.105291),
+new BMapGL.Point(118.7987,32.104718),
+new BMapGL.Point(118.799012,32.104776),
+new BMapGL.Point(118.800763,32.104926),
+new BMapGL.Point(118.800849,32.102858),
+new BMapGL.Point(118.800892,32.101736),
+new BMapGL.Point(118.800918,32.10105),
+new BMapGL.Point(118.801932,32.100487),
+new BMapGL.Point(118.802452,32.100306),
+new BMapGL.Point(118.802996,32.100114),
+new BMapGL.Point(118.803341,32.09993),
+new BMapGL.Point(118.803457,32.099838),
+new BMapGL.Point(118.804021,32.099518),
+new BMapGL.Point(118.804107,32.099399),
+new BMapGL.Point(118.80409,32.099279),
+new BMapGL.Point(118.802712,32.098225),
+new BMapGL.Point(118.801248,32.097116),
+new BMapGL.Point(118.800641,32.096664),
+new BMapGL.Point(118.800285,32.096447),
+new BMapGL.Point(118.799644,32.096114),
+new BMapGL.Point(118.799358,32.095989),
+new BMapGL.Point(118.799471,32.095763),
+new BMapGL.Point(118.799774,32.095137),
+new BMapGL.Point(118.799141,32.094982),
+new BMapGL.Point(118.798933,32.094887),
+new BMapGL.Point(118.798899,32.094718),
+new BMapGL.Point(118.798994,32.094162),
+new BMapGL.Point(118.799115,32.09324),
+new BMapGL.Point(118.799037,32.092971),
+new BMapGL.Point(118.798569,32.092689),
+new BMapGL.Point(118.797763,32.092283),
+new BMapGL.Point(118.796827,32.091833),
+new BMapGL.Point(118.796688,32.091373),
+new BMapGL.Point(118.796732,32.090724),
+new BMapGL.Point(118.797624,32.089371),
+new BMapGL.Point(118.797789,32.089117),
+new BMapGL.Point(118.797659,32.088907),
+new BMapGL.Point(118.797217,32.088558),
+new BMapGL.Point(118.796861,32.088448),
+new BMapGL.Point(118.795371,32.088359),
+new BMapGL.Point(118.793854,32.088348),
+new BMapGL.Point(118.793472,32.088407),
+new BMapGL.Point(118.79193,32.089132),
+new BMapGL.Point(118.789026,32.090515),
+new BMapGL.Point(118.786243,32.091469),
+new BMapGL.Point(118.784093,32.092269),
+new BMapGL.Point(118.783919,32.091827),
+new BMapGL.Point(118.783824,32.091458),
+new BMapGL.Point(118.783859,32.091148),
+new BMapGL.Point(118.78404,32.090089),
+new BMapGL.Point(118.784075,32.089531),
+new BMapGL.Point(118.784066,32.088778),
+new BMapGL.Point(118.784074,32.084806),
+new BMapGL.Point(118.784074,32.081248),
+new BMapGL.Point(118.784065,32.078843),
+new BMapGL.Point(118.784091,32.077643),
+new BMapGL.Point(118.784063,32.077596),
+new BMapGL.Point(118.784063,32.077471),
+new BMapGL.Point(118.784086,32.077429),
+new BMapGL.Point(118.78408,32.07608),
+new BMapGL.Point(118.784079,32.07379),
+new BMapGL.Point(118.784085,32.071561),
+new BMapGL.Point(118.78409,32.069309),
+new BMapGL.Point(118.784091,32.066431),
+new BMapGL.Point(118.78408,32.064864),
+new BMapGL.Point(118.784107,32.064725),
+new BMapGL.Point(118.784102,32.062758),
+new BMapGL.Point(118.7841,32.062454),
+new BMapGL.Point(118.784108,32.059395),
+new BMapGL.Point(118.784116,32.058212),
+new BMapGL.Point(118.784104,32.05555),
+new BMapGL.Point(118.784106,32.054046),
+new BMapGL.Point(118.784116,32.054032),
+new BMapGL.Point(118.784136,32.054032),
+new BMapGL.Point(118.784136,32.053956),
+new BMapGL.Point(118.784106,32.053925),
+new BMapGL.Point(118.784114,32.050552),
+new BMapGL.Point(118.784118,32.043979),
+new BMapGL.Point(118.784102,32.041767),
+new BMapGL.Point(118.783046,32.041839),
+new BMapGL.Point(118.781386,32.041949),
+new BMapGL.Point(118.778383,32.04216),
+new BMapGL.Point(118.777517,32.042221),
+new BMapGL.Point(118.776264,32.042326),
+new BMapGL.Point(118.774502,32.042434),
+new BMapGL.Point(118.771711,32.042632),
+new BMapGL.Point(118.769821,32.042715),
+new BMapGL.Point(118.768971,32.042776),
+new BMapGL.Point(118.768034,32.042878),
+new BMapGL.Point(118.767652,32.042902),
+new BMapGL.Point(118.767236,32.042896),
+new BMapGL.Point(118.766998,32.042848),
+new BMapGL.Point(118.766927,32.042869),
+new BMapGL.Point(118.766892,32.042864),
+new BMapGL.Point(118.766845,32.042818),
+new BMapGL.Point(118.766108,32.042491),
+new BMapGL.Point(118.765961,32.042411),
+new BMapGL.Point(118.765922,32.042389),
+new BMapGL.Point(118.765684,32.042259),
+new BMapGL.Point(118.765686,32.042226),
+new BMapGL.Point(118.765655,32.042243),
+new BMapGL.Point(118.764737,32.041741)
+	], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});   //创建折线
+	
+	// var circle = new BMapGL.Circle(point,500,{strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5}); //创建圆
+	
+	// var polygon = new BMapGL.Polygon([
+	// 	new BMapGL.Point(116.387112,39.920977),
+	// 	new BMapGL.Point(116.385243,39.913063),
+	// 	new BMapGL.Point(116.394226,39.917988),
+	// 	new BMapGL.Point(116.401772,39.921364),
+	// 	new BMapGL.Point(116.41248,39.927893)
+	// ], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});  //创建多边形
+	
+	// var pStart = new BMapGL.Point(116.392214,39.918985);
+	// var pEnd = new BMapGL.Point(116.41478,39.911901);
+	// var rectangle = new BMapGL.Polygon([
+	// 	new BMapGL.Point(pStart.lng,pStart.lat),
+	// 	new BMapGL.Point(pEnd.lng,pStart.lat),
+	// 	new BMapGL.Point(pEnd.lng,pEnd.lat),
+	// 	new BMapGL.Point(pStart.lng,pEnd.lat)
+	// ], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});  //创建矩形
+	
+	//添加覆盖物
+	function create_marker(x,y,index){
+		var point = new BMapGL.Point(x,y);
+		var marker = new BMapGL.Marker(point);
+		var content = index.toString();
+		var label = new BMapGL.Label(content, {       // 创建文本标注
+		    position: point,
+		    offset:new BMapGL.Size(-5, -18) 
+		})  
+		//map.addOverlay(label);                        // 将标注添加到地图中
+		label.setStyle({                              // 设置label的样式
+		    fontSize: '5px',
+		    background:'none',color:'#fff',border:'none'
+		})
+		map.addOverlay(marker);
+		
+		map.enableScrollWheelZoom(); // 允许滚轮缩放
+
+	}
+	function add_overlay(){
+		var datalist=[[32.04183, 118.76194], [32.04391, 118.72423], [32.04183, 118.76194], [32.06681, 118.7501505], [32.06169, 118.74615], [32.06169, 118.74615], [32.060479, 118.734256], [32.06191, 118.75126], [32.06107, 118.748776], [32.06107, 118.748776], [32.06169, 118.74615], [32.06411, 118.74464], [32.06096, 118.7393001], [32.06681, 118.75015], [32.05803, 118.74803], [32.04183, 118.76194], [32.06188, 118.75063], [32.05798, 118.739602], [32.05798, 118.739602], [32.05959, 118.73614], [32.05798, 118.73961], [32.05798, 118.73961], [32.061606, 118.758735], [32.0571001, 118.7456501], [32.054392, 118.753069], [32.056293, 118.751138], [32.05992, 118.73697], [32.06818, 118.75184], [32.06714, 118.73742], [32.060479, 118.734256], [32.06096, 118.7393001], [32.06322, 118.73928], [32.05798, 118.73961], [32.0657001, 118.7415501], [32.059711, 118.739131], [32.05798, 118.739602], [32.05798, 118.73961], [32.059711, 118.739131], [32.05798, 118.739602], [32.05974, 118.75013], [32.06107, 118.748776], [32.056293, 118.751138], [32.05798, 118.73961], [32.05798, 118.739602], [32.06101, 118.73917], [32.04565, 118.75973]]
+		
+		
+		
+		for (i=0;i<datalist.length;i++){
+			var x=datalist[i][1];
+			var y=datalist[i][0];
+			var index = i;
+			create_marker(x,y,index);	
+		}
+		//map.addOverlay(marker); 
+		//map.addOverlay(marker2);//增加点
+		map.addOverlay(polyline);          //增加折线
+		// map.addOverlay(circle);            //增加圆
+		// map.addOverlay(polygon);           //增加多边形
+		// map.addOverlay(rectangle);         //增加矩形
+	}
+	//清除覆盖物
+	// function remove_overlay(){
+	// 	map.clearOverlays();         
+	// }
+	add_overlay();
+</script>
