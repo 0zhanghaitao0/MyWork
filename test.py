@@ -126,7 +126,7 @@ def grid(dataGroupsList, lng, lat, T):
                             i = i - 1  # 返回上一级
                             j = j - count #j 要从原来的开始
                             count = 0
-                            if m > len(cluster):  # 如果返回上一级返回到数据起始位置，那么就说明不再可能找到了，此时要讲原来的簇加入到类簇中，并开辟一条新簇
+                            if m > len(cluster):  #如果返回上一级返回到数据起始位置，那么就说明不再可能找到了，此时要讲原来的簇加入到类簇中，并开辟一条新簇
                                 classcluster.append(cluster)
                                 cluster = []
                                 i = i + m  # 恢复原来遍历到的位置
