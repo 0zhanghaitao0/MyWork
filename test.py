@@ -160,7 +160,6 @@ def grid(dataframes, lng, lat): #对每一段行程记录进行网格化
         return parse_Cm(Cm)
     else:
         return dataframes
-
 def parse_Cm(Cm): #对网格化的数据进行处理,处理方法：
     index=1
     length = len(Cm)
@@ -261,6 +260,7 @@ def computeTimeDiff(dataGroupsList): #重新计算时间
                 pass
     return dataGroupsList
 
+
 def computeSpeed(dataGroupsList): #计算速度
     for user in dataGroupsList:
         # T = 1.3 #T为系数1.3
@@ -290,6 +290,7 @@ def computeSpeed1(dataGroupsList): #计算速度
             for info in list:
                 travel.remove(info)
     return dataGroupsList
+
 
 def computeAccelSpeed(dataGroupsList): #计算加速度
     for user in dataGroupsList:
@@ -332,41 +333,6 @@ def removeLessTwoData(dataGroupsList): #出去行程小于2条记录的数据
             user.remove(delTravel)
     return dataGroupsList
 
-def test2(dataGroupsList):
-    for user in dataGroupsList:
-        for travel in user:
-            list = []
-            if len(travel) > 1:
-                print(travel)
-                for i in range(0, len(travel)-1): #找到下一条与本条一样的记录
-                    j = i+1
-                    while j < len(travel):
-                        if float(travel[i][3]) == float(travel[j][3]) and float(travel[i][4]) == float(travel[j][4]): #如果找到，则判断时间是否大于5分钟，小于5分钟，继续判断距离
-                            total_seconds = (travel[j][1] - travel[i][1]).total_seconds()
-                            if total_seconds > (2*60):
-                                break
-                            else:
-                                if compute_twopoint_distance(travel[i], travel[j]) > 100:#距离小于100，则删除两条记录之间的数据
-                                    break
-                                else:
-                                    for m in range(i+1, j+1): #找到中间的记录删除
-                                        if travel[m] not in list:
-                                            list.append(travel[m])
-                                    break
-                        j = j + 1
-
-                for data in list:
-                    travel.remove(data)
-
-    return dataGroupsList
-
-def removeFirstPoint(dataGroupsList):
-    for user in dataGroupsList:
-        for travel in user:
-            if len(travel)>0:
-                travel.remove(travel[0])
-    return dataGroupsList
-
 def test(dataGroupsList):
     list=[]
     for i in dataGroupsList:
@@ -380,30 +346,21 @@ def write_csv(datasList):  #向csv表写数据
     cols = ['用户号码', '开始时间', '开始基站', '开始基站经度', '开始基站纬度', '结束时间', '结束基站', '结束基站经度', '结束基站纬度', '停留时间', '行程段', '停留时间', '距离', '速度', '停留时间', '距离', '速度', '加速度']
     datas_List = pd.DataFrame(datasList)
     datas_List.columns = cols
-    datas_List.to_csv(r'F:\data\20180827\16' + '.csv', index=None, encoding='utf_8_sig')
+    datas_List.to_csv(r'F:\data\20180827\14' + '.csv', index=None, encoding='utf_8_sig')
 
 if __name__ == '__main__':
-    datasList = readData(csv_file) #读取数据,datasList为接收的数据列表
-    changTimeFoemat(datasList) #修改时间格式为2018-8-27 00:48
-    datasList = deleteZeroData(datasList) #删除经纬度为0的数据
-    dataGroupsList = groupByUserId(datasList)  #根据用户号码为分类出不同的用户
-    dataGroupsList = distinguishTravel(dataGroupsList) #为每个用户区分不同的行程，并且打上每段行程的标记
-    dataGroupsList = removeDriftData(dataGroupsList)  # 分行程去除漂移数据造成的误差
-    # dataGroupsList = removePingPong(dataGroupsList) #分行程去除乒乓效应导致的噪声数据
-    dataGroupsList = test2(dataGroupsList) #分行程去除乒乓效应导致的噪声数据
-    #dataGroupsList = deleteRepeatData(dataGroupsList) #分行程去除重复的数据
-    dataGroupsList = computeTimeDiff(dataGroupsList) #重新计算停留时间
-    dataGroupsList = computeDistance(dataGroupsList) #计算距离
-    dataGroupsList = computeSpeed(dataGroupsList) #计算速度
-    dataGroupsList = removeBigSpeed(dataGroupsList) #去除大于速度阈值的数据
-    # dataGroupsList = test2(dataGroupsList)  # 分行程去除乒乓效应导致的噪声数据
-    # dataGroupsList = removeDriftData(dataGroupsList)  # 分行程去除漂移数据造成的误差
-    # dataGroupsList = deleteRepeatData(dataGroupsList)  # 分行程去除重复的数据
-    dataGroupsList = computeTimeDiff(dataGroupsList) #重新计算停留时间
-    dataGroupsList = computeDistance(dataGroupsList) #计算距离
-    dataGroupsList = computeSpeed1(dataGroupsList) #计算速度
-    dataGroupsList = removeLessTwoData(dataGroupsList) #去除行程小于3条记录的数据
-    dataGroupsList = computeAccelSpeed(dataGroupsList) #计算加速度
-    dataGroupsList = removeFirstPoint(dataGroupsList)
+    datasList = readData(csv_file)  # 读取数据,datasList为接收的数据列表
+    changTimeFoemat(datasList)  # 修改时间格式为2018-8-27 00:48
+    datasList = deleteZeroData(datasList)  # 删除经纬度为0的数据
+    dataGroupsList = groupByUserId(datasList)  # 根据用户号码为分类出不同的用户
+    dataGroupsList = distinguishTravel(dataGroupsList)  # 为每个用户区分不同的行程，并且打上每段行程的标记
+    dataGroupsList = computeTimeDiff(dataGroupsList)  # 重新计算停留时间
+    dataGroupsList = computeDistance(dataGroupsList)  # 计算距离
+    dataGroupsList = computeSpeed(dataGroupsList)  # 计算速度
+    dataGroupsList = computeTimeDiff(dataGroupsList)  # 重新计算停留时间
+    dataGroupsList = computeDistance(dataGroupsList)  # 计算距离
+    dataGroupsList = computeSpeed1(dataGroupsList)  # 计算速度
+    dataGroupsList = removeLessTwoData(dataGroupsList)  # 出去行程小于2条记录的数据
+    dataGroupsList = computeAccelSpeed(dataGroupsList)  # 计算加速度
     list = test(dataGroupsList)
     write_csv(list)

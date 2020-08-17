@@ -10,7 +10,6 @@ def readData(csv_file):
     datasList=[]
     for data in csv_file:
         datasList.append(data)
-    datasList.remove(datasList[0]) #去除第一行中文标识
     return datasList
 
 def getXtime(datasList):
@@ -22,13 +21,15 @@ def getXtime(datasList):
 def getYspeed(datasList):
     Yspeed=[]
     for data in datasList:
-        Yspeed.append(float(data[16]))
+        print(data[17])
+        Yspeed.append(float(data[17]))
     return Yspeed
 
-def drawView(Xtime,Yspeed, XticksList):
+def drawView2D(Xtime,Yspeed, XticksList):
     plt.plot(Xtime,Yspeed)
-    plt.xticks(Xtime[::2],rotation=60,fontsize=7)
+    plt.xticks(Xtime[::4],rotation=60,fontsize=7)
     plt.scatter(Xtime, Yspeed, marker='o', c='r')
+    plt.ylim((-3,3))
     plt.show()
 
 def getXticks(Xtime):
@@ -46,5 +47,4 @@ if __name__ == '__main__':
     Xtime = getXtime(datasList)
     Yspeed = getYspeed(datasList)
     XticksList = getXticks(Xtime)
-    print(XticksList)
-    drawView(Xtime, Yspeed, XticksList)
+    drawView2D(Xtime, Yspeed, XticksList)
