@@ -144,19 +144,20 @@ def grid(dataGroupsList, lng, lat):
                 i=i+1
     return everyuserclasscluster
 
-def deleteRepeatData(everyuserclasscluster): #分行程去除重复的数据
+def deleteRepeatData(alluser): #分行程去除重复的数据
     for index in range(0,10):
-        for user in everyuserclasscluster:
-            for travel in user:
-                deleList=[]
-                if len(travel) > 1:
-                    for i in range(1, len(travel)):
-                        if travel[i][3] == travel[i-1][3] and travel[i][4] == travel[i-1][4]:
-                            if travel[i-1] not in deleList:
-                                deleList.append(travel[i-1])
-                    for data in deleList:
-                        travel.remove(data)
-    return everyuserclasscluster
+        for travel in alluser:
+            deleList=[]
+            if len(travel) > 1:
+                for i in range(1, len(travel)):
+                    if travel[i][3] == travel[i-1][3] and travel[i][4] == travel[i-1][4]:
+                        if travel[i-1] not in deleList:
+                            deleList.append(travel[i-1])
+            elif len(travel)==1:
+                deleList.append(travel[0])
+            for data in deleList:
+                travel.remove(data)
+    return alluser
 
 def compute_twopoint_distance(content1, content2): #计算两点(两条数据)之间的距离，content1和content2是每一行的记录
     JA = float(content1[3]) / 180 * math.pi
@@ -170,12 +171,10 @@ def compute_twopoint_distance(content1, content2): #计算两点(两条数据)�
     )
     return L
 
-def removePingPong(everyuserclasscluster): #对不同的簇，消除乒乓效应造成的误差
-    for i in range(0, 10):
-        for userclasscluster in everyuserclasscluster:
-           for classcluster in userclasscluster:
-                   removePingPongMethod(classcluster)
-    return everyuserclasscluster
+def removePingPong(alluser): #对不同的簇，消除乒乓效应造成的误差
+    for user in alluser:
+        removePingPongMethod(user)
+    return alluser
 
 def removePingPongMethod(data): #消除乒乓效应造成误差的方法
     if len(data)>2:
@@ -189,31 +188,31 @@ def removePingPongMethod(data): #消除乒乓效应造成误差的方法
         for deldata in deleteList:
             data.remove(deldata)
 
-def test(dataGroupsList):
+def test(alluser):
     list = []
-    for user in dataGroupsList:
-        for info in user:
-            for data in info:
+    for user in alluser:
+            for data in user:
                 list.append(data)
     return list
 
-def computeDistance(everyuserclasscluster): #计算距离
-    for user in everyuserclasscluster:
-        for travel in user:
-            if len(travel)>1:
-                for i in range(1, len(travel)):
-                    L = compute_twopoint_distance(travel[i-1], travel[i])
-                    travel[i-1].append(L)
-                    if i == len(travel)-1:  #最后一条记录数据用倒数第二条补偿
-                        L = compute_twopoint_distance(travel[i - 1], travel[i])
-                        # L = computeDataDistance(travel[i])
-                        travel[i].append(L)
-            elif len(travel)==1:
-                L = computeDataDistance(travel[0])
-                travel[0].append(L)
+def computeDistance(alluser): #计算距离
+    for info in alluser:
+        for i in range(1, len(info)):
+            L = compute_twopoint_distance(info[i-1], info[i])
+            info[i-1].append(L)
+            if i == len(info)-1:  #最后一条记录数据用倒数第二条补偿
+                L = compute_twopoint_distance(info[i - 1], info[i])
+                # L = computeDataDistance(travel[i])
+                info[i].append(L)
+            elif len(info)==1:
+                L = computeDataDistance(info[0])
+                info[0].append(L)
             else:
                 pass
-    return everyuserclasscluster
+        if len(info)==1:
+            L = computeDataDistance(info[0])
+            info[0].append(L)
+    return alluser
 
 def computeDataDistance(data): #计算一条数据起始位置与结束位置之间的距离
     JA = float(data[3]) / 180 * math.pi
@@ -227,77 +226,81 @@ def computeDataDistance(data): #计算一条数据起始位置与结束位置之
     )
     return L
 
-def computeTimeDiff(everyuserclasscluster): #重新计算时间
-    for user in everyuserclasscluster:
-        for travel in user:
-            if len(travel) > 1:
-                for i in range(1, len(travel)):
-                    total_seconds = (travel[i][1] - travel[i-1][1]).total_seconds()
-                    travel[i-1].append(total_seconds)
-                    if i == len(travel)-1:  #最后一条记录数据用倒数第二条补偿
-                        total_seconds = (travel[i][1] - travel[i - 1][1]).total_seconds()
-                        travel[i].append(total_seconds)
-            elif len(travel)==1:
-                travel[0].append(travel[0][9])
+def computeTimeDiff(alluser): #重新计算时间
+    for info in alluser:
+        for i in range(1, len(info)):
+            total_seconds = (info[i][1] - info[i-1][1]).total_seconds()
+            info[i-1].append(total_seconds)
+            if i == len(info)-1:  #最后一条记录数据用倒数第二条补偿
+                total_seconds = (info[i][1] - info[i - 1][1]).total_seconds()
+                info[i].append(total_seconds)
+        if len(info)==1:
+            info[0].append(info[0][9])
+    return alluser
+
+def computeSpeed(alluser): #计算速度
+    for info in alluser:
+        list=[]
+        for data in info:
+            if float(data[12]) != 0:
+                speed = float(data[11])/float(data[12])
+                data.append(speed)
             else:
-                pass
-    return everyuserclasscluster
+                list.append(data)
+        for deldata in list:
+            info.remove(deldata)
+    return alluser
 
-def computeSpeed(everyuserclasscluster): #计算速度
-    for user in everyuserclasscluster:
-        # T = 1.3 #T为系数1.3
-        for travel in user:
-            list=[]
-            for data in travel:
-                if float(data[12]) != 0:
-                    speed = float(data[11])/float(data[12])
-                    data.append(speed)
-                else:
-                    list.append(data)
-            for info in list:
-                travel.remove(info)
-    return everyuserclasscluster
+def removeBigSpeed(alluser): #速度超过33m/s，去除
+    for user in alluser:
+        list=[]
+        for data in user:
+            if abs(data[14])>10:
+                list.append(data)
+        for data in list:
+            user.remove(data)
+    return alluser
 
-def removeBigSpeed(everyuserclasscluster): #速度超过33m/s，去除
+def changeDataFormat(everyuserclasscluster):
+    alluser = []
     for user in everyuserclasscluster:
-        for travel in user:
-            list=[]
-            for data in travel:
-                if data[13]>84:
-                    list.append(data)
-            for data in list:
-                travel.remove(data)
-    return everyuserclasscluster
+        list = []
+        for cluster in user:
+            for data in cluster:
+                list.append(data)
+        alluser.append(list)
+    for user in alluser:
+        if len(user)==1:
+            alluser.remove(user)
+    return alluser
 
-def computeSpeed1(everyuserclasscluster): #再次计算速度
-    for user in everyuserclasscluster:
-        # T = 1.3 #T为系数1.3
-        for travel in user:
-            list=[]
-            for data in travel:
-                if float(data[15]) != 0:
-                    speed = float(data[14])/float(data[15])
-                    data.append(speed)
-                else:
-                    list.append(data)
-            for info in list:
-                travel.remove(info)
-    return everyuserclasscluster
 
-def computeAccelSpeed(everyuserclasscluster): #计算加速度
-    for user in everyuserclasscluster:
-        for travel in user:
-            if len(travel)>1: #只会计算行程段里2条以上记录的加速度
-                for i in range(1,len(travel)):
-                    accel = (travel[i][-1] - travel[i-1][-1])/travel[i-1][-2]
-                    travel[i-1].append(accel)
-                    if i == len(travel)-1: #最后一条记录数据用倒数第二条补偿
-                        accel = (travel[i][-1] - travel[i - 1][-1]) / travel[i - 1][-2]
-                        travel[i].append(accel)
-    return everyuserclasscluster
+def computeSpeed1(alluser): #再次计算速度
+    for user in alluser:
+        list=[]
+        for data in user:
+            if float(data[16]) != 0:
+                speed = float(data[15])/float(data[16])
+                data.append(speed)
+            else:
+                list.append(data)
+        for info in list:
+            user.remove(info)
+    return alluser
+
+def computeAccelSpeed(alluser): #计算加速度
+    for info in alluser:
+        if len(info)>1: #只会计算行程段里2条以上记录的加速度
+            for i in range(1,len(info)):
+                accel = (float(info[i][13]) - float(info[i-1][13]))/float(info[i-1][12])
+                info[i-1].append(accel)
+                if i == len(info)-1: #最后一条记录数据用倒数第二条补偿
+                    accel = (float(info[i][13]) - float(info[i-1][13])) / float(info[i-1][12])
+                    info[i].append(accel)
+    return alluser
 
 def write_csv(datasList):  # 向csv表写数据
-    cols = ['用户号码', '开始时间', '开始基站', '开始基站经度', '开始基站纬度', '结束时间', '结束基站', '结束基站经度', '结束基站纬度', '停留时间', '聚类簇编号','距离','时间','速度','加速度','距离','时间','速度']
+    cols = ['用户号码', '开始时间', '开始基站', '开始基站经度', '开始基站纬度', '结束时间', '结束基站', '结束基站经度', '结束基站纬度', '停留时间', '聚类簇编号','距离','时间', '速度','加速度','距离','时间', '速度','加速度']
     datas_List = pd.DataFrame(datasList)
     datas_List.columns = cols
     datas_List.to_csv(r'F:\data\20180827\17' + '.csv', index=None, encoding='utf_8_sig')
@@ -311,16 +314,18 @@ if __name__ == '__main__':
     dataGroupsList = groupByUserId(datasList) #按userid进行用户分类
     dataGroupsList = recoverData(dataGroupsList) #数据补偿
     everyuserclasscluster = grid(dataGroupsList, lng, lat) #网格法去除漂移[[[]]]
-    everyuserclasscluster = removePingPong(everyuserclasscluster)
-    everyuserclasscluster = deleteRepeatData(everyuserclasscluster)
-    everyuserclasscluster = computeDistance(everyuserclasscluster)
-    everyuserclasscluster = computeTimeDiff(everyuserclasscluster)
-    everyuserclasscluster = computeSpeed(everyuserclasscluster)
-    everyuserclasscluster = computeAccelSpeed(everyuserclasscluster)
-    everyuserclasscluster = removeBigSpeed(everyuserclasscluster)
-    everyuserclasscluster = computeDistance(everyuserclasscluster)
-    everyuserclasscluster = computeTimeDiff(everyuserclasscluster)
-    everyuserclasscluster = computeSpeed1(everyuserclasscluster)
-    list = test(everyuserclasscluster)
+    alluser = changeDataFormat(everyuserclasscluster)
+    alluser = removePingPong(alluser)
+    alluser = deleteRepeatData(alluser)
+    alluser = computeDistance(alluser)
+    alluser = computeTimeDiff(alluser)
+    alluser = computeSpeed(alluser)
+    alluser = computeAccelSpeed(alluser)
+    alluser = removeBigSpeed(alluser)
+    alluser = computeDistance(alluser)
+    alluser = computeTimeDiff(alluser)
+    alluser = computeSpeed1(alluser)
+    alluser = computeAccelSpeed(alluser)
+    list = test(alluser)
     write_csv(list)
 
