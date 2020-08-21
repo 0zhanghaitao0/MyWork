@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import time
 from mpl_toolkits.mplot3d import axes3d
 import numpy as np
+import math
 
 input_file = open(r'F:\data\20180827\test.csv', 'rt', encoding='utf8')
 csv_file = csv.reader(input_file)
@@ -28,14 +29,11 @@ def getXtime(datasList):
     Xtime=[]
     for data in datasList:
         mytime=data[1].split(" ")[-1].split(":")
-
         h=mytime[0]
         m=mytime[1]
         s=mytime[2]
         time1 = h+m+s
-        print(time1)
-        Xtime.append(float(time1))
-    print(Xtime)
+        Xtime.append(int(time1))
     return Xtime
 
 def getYspeed(datasList):
@@ -67,7 +65,7 @@ def drawUserLine(Xlat, Ylng, XinZhenXlat, XinZhenYlng):
     fig = plt.figure(figsize=(30,30))
     ax = fig.gca(projection='3d')
     ax.set_zlim((0,1))
-    figure1 = ax.plot(Xlat, Ylng, c='b')  # 鼓楼区行政区
+    figure1 = ax.plot(Xlat, Ylng, c='b')  # 用户轨迹
     figure2 = ax.plot(XinZhenXlat, XinZhenYlng, c='g')  # 鼓楼区行政区
     plt.show()
 
@@ -80,7 +78,8 @@ def drawView3D(Xtime, Xlat, Ylng, Zspeed, Zaccelspeed, XinZhenXlat, XinZhenYlng)
     ax.set_xlabel("x")
     ax.set_ylabel("y")
     ax.set_zlabel("z")
-    figure1 = ax.plot(Xlat[::2], Ylng[::2], Xtime[::2], c='r') #速度
+    # figure1 = ax.plot(Xlat[::2], Ylng[::2], Xtime[::2], c='r') #速度
+    ax.scatter(Xlat,Ylng,Zaccelspeed)
     # figure2 = ax1.plot(Xlat[::2], Ylng[::2],c='green')
     figure3 = ax1.plot( XinZhenXlat, XinZhenYlng, c='b') #鼓楼区行政区
     plt.show()
@@ -122,4 +121,5 @@ if __name__ == '__main__':
     # XticksList = getXticks(Xtime)
     # drawView2D(Xtime, Zspeed, XticksList)
     drawView3D(Xtime, Xlat, Ylng, Zspeed,Zaccelspeed, XinZhenXlat, XinZhenYlng)
-    # drawUserLine(Xlat, Ylng, XinZhenXlat, XinZhenYlng)
+
+    #drawUserLine(Xlat, Ylng, XinZhenXlat, XinZhenYlng)

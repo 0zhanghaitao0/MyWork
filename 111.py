@@ -242,8 +242,8 @@ def computeSpeed(alluser): #计算速度
     for info in alluser:
         list=[]
         for data in info:
-            if float(data[12]) != 0:
-                speed = float(data[11])/float(data[12])
+            if float(data[11]) != 0:
+                speed = float(data[10])/float(data[11])
                 data.append(speed)
             else:
                 list.append(data)
@@ -292,18 +292,18 @@ def computeAccelSpeed(alluser): #计算加速度
     for info in alluser:
         if len(info)>1: #只会计算行程段里2条以上记录的加速度
             for i in range(1,len(info)):
-                accel = (float(info[i][13]) - float(info[i-1][13]))/float(info[i-1][12])
+                accel = (float(info[i][12]) - float(info[i-1][12]))/float(info[i-1][11])
                 info[i-1].append(accel)
                 if i == len(info)-1: #最后一条记录数据用倒数第二条补偿
-                    accel = (float(info[i][13]) - float(info[i-1][13])) / float(info[i-1][12])
+                    accel = (float(info[i][12]) - float(info[i-1][12])) / float(info[i-1][11])
                     info[i].append(accel)
     return alluser
 
 def write_csv(datasList):  # 向csv表写数据
-    cols = ['用户号码', '开始时间', '开始基站', '开始基站经度', '开始基站纬度', '结束时间', '结束基站', '结束基站经度', '结束基站纬度', '停留时间', '聚类簇编号','距离','时间', '速度','加速度','距离','时间', '速度','加速度']
+    cols = ['用户号码', '开始时间', '开始基站', '开始基站经度', '开始基站纬度', '结束时间', '结束基站', '结束基站经度', '结束基站纬度', '停留时间', '距离','时间', '速度','加速度']
     datas_List = pd.DataFrame(datasList)
     datas_List.columns = cols
-    datas_List.to_csv(r'F:\data\20180827\17' + '.csv', index=None, encoding='utf_8_sig')
+    datas_List.to_csv(r'F:\data\20180827\18' + '.csv', index=None, encoding='utf_8_sig')
 
 if __name__ == '__main__':
     lng = 0.0045487002
@@ -313,19 +313,19 @@ if __name__ == '__main__':
     datasList = changTimeFormat(datasList) #修改数据格式
     dataGroupsList = groupByUserId(datasList) #按userid进行用户分类
     dataGroupsList = recoverData(dataGroupsList) #数据补偿
-    everyuserclasscluster = grid(dataGroupsList, lng, lat) #网格法去除漂移[[[]]]
-    alluser = changeDataFormat(everyuserclasscluster)
-    alluser = removePingPong(alluser)
-    alluser = deleteRepeatData(alluser)
-    alluser = computeDistance(alluser)
+    # everyuserclasscluster = grid(dataGroupsList, lng, lat) #网格法去除漂移[[[]]]
+    # alluser = changeDataFormat(everyuserclasscluster)
+    # alluser = removePingPong(alluser)
+    # alluser = deleteRepeatData(alluser)
+    alluser = computeDistance(dataGroupsList)
     alluser = computeTimeDiff(alluser)
     alluser = computeSpeed(alluser)
     alluser = computeAccelSpeed(alluser)
-    alluser = removeBigSpeed(alluser)
-    alluser = computeDistance(alluser)
-    alluser = computeTimeDiff(alluser)
-    alluser = computeSpeed1(alluser)
-    alluser = computeAccelSpeed(alluser)
+    # alluser = removeBigSpeed(alluser)
+    # alluser = computeDistance(alluser)
+    # alluser = computeTimeDiff(alluser)
+    # alluser = computeSpeed1(alluser)
+    # alluser = computeAccelSpeed(alluser)
     list = test(alluser)
     write_csv(list)
 
