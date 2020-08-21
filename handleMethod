@@ -4,3 +4,31 @@
 --> 将数据小于2条的行程段从用户一天的行程中删除-->
 --> 此时每个行程段中肯定会出现时间不连续的现象，所以重新计算时间间隔-->
 --> 计算距离、速度、加速度
+
+
+spring教程
+http://c.biancheng.net/view/4265.html
+
+一些jar包的网站
+https://maven.aliyun.com/mvn/search
+
+https://www.jianshu.com/p/04d0a25a0d08
+
+springboot教程
+http://tengj.top/2017/04/24/springboot0/
+
+jquery手册
+https://www.runoob.com/jquery/jquery-install.html
+
+javascript手册
+https://www.runoob.com/js/js-lib-jquery.html
+
+SQL教程
+http://www.gdjunjie.cn/daima/web/sql_dates.asp.htm
+
+matplotlib笔记
+https://blog.csdn.net/weixin_44340318/article/details/105888864
+
+解决方案：
+5分钟登录3次锁定45分钟
+http://www.myexception.cn/sql-server/193982.html
