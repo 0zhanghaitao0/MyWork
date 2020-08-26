@@ -79,7 +79,7 @@ def drawView3D(Xtime, Xlat, Ylng, Zspeed, Zaccelspeed, XinZhenXlat, XinZhenYlng)
     ax.set_ylabel("y")
     ax.set_zlabel("z")
     # figure1 = ax.plot(Xlat[::2], Ylng[::2], Xtime[::2], c='r') #速度
-    ax.scatter(Xlat,Ylng,Zaccelspeed)
+    ax.scatter(Xlat,Ylng,Zspeed)
     # figure2 = ax1.plot(Xlat[::2], Ylng[::2],c='green')
     figure3 = ax1.plot( XinZhenXlat, XinZhenYlng, c='b') #鼓楼区行政区
     plt.show()
@@ -122,4 +122,4 @@ if __name__ == '__main__':
     # drawView2D(Xtime, Zspeed, XticksList)
     drawView3D(Xtime, Xlat, Ylng, Zspeed,Zaccelspeed, XinZhenXlat, XinZhenYlng)
 
-    #drawUserLine(Xlat, Ylng, XinZhenXlat, XinZhenYlng)
+    # drawUserLine(Xlat, Ylng, XinZhenXlat, XinZhenYlng)
