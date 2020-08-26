@@ -1,3 +1,4 @@
+#直接网格法的预处理方法20200824
 import pandas as pd
 import csv
 import math
